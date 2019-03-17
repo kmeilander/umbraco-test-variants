@@ -1,0 +1,38 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.TestPage>
+@using ContentModels = Umbraco.Web.PublishedModels;
+@{
+
+    Layout = "master.cshtml";
+}
+
+<div class="section section--themed section--header  section--content-center-bottom" style="background-image:url(@(Model.MarqueeBackgroundImage != null ? Model.MarqueeBackgroundImage.Url : "")); color:#fff">
+    <div class="container" style="text-align:center">
+        @*I cant figure out if you can use the model builder with fallbacks, so I'm not using it here*@
+        @*<h1>@Model.MarqueeHeadline</h1>*@
+
+        <h1>@Model.Value("marqueeHeadline", fallback: Fallback.ToLanguage)</h1>
+
+        <div style="font-size:1.4em;">
+            @Html.Raw(Model.Value("marqueeCopy", fallback: Fallback.ToLanguage))
+        </div>
+
+
+
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        @if (!string.IsNullOrEmpty(Model.ItemsHeadline))
+        {
+            <h2>@Model.ItemsHeadline</h2>
+        }
+        @foreach (var item in Model.Items)
+        {
+            <div class="col-sm-4">
+                @Html.Partial("~/views/partials/components/componentBodytile.cshtml", item)
+            </div>
+        }
+    </div>
+</div>

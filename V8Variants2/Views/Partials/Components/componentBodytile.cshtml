@@ -1,0 +1,18 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.ComponentBodyTile>
+@using ContentModels = Umbraco.Web.PublishedModels;
+
+<div class="c-body-tile text-center">
+    @if(Model.Image != null)
+    {
+        <img src="@Model.Image.Url" class="img-responsive"/>
+    }
+    <h3>@Model.Headline</h3>
+    <p>@Model.Copy</p>
+    
+    @foreach(var link in Model.Link)
+    {
+        <a href="@link.Url" target="@link.Target" class="btn btn-primary">Learn more</a>
+    }
+   
+</div>
+

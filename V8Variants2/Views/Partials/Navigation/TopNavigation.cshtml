@@ -1,0 +1,97 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using Umbraco.Web;
+@{
+    var site = Model.Root();
+    var selection = site.Children.Where(x => x.IsVisible() && x.IsPublished());
+}
+
+@foreach (var item in selection)
+{
+    <a class="nav-link @(item.IsAncestorOrSelf(Model) ? "nav-link--active" : null)" href="@item.Url">@item.Name</a>
+}
+
+
+    
+
+<div class="dropdown" style="padding-right:20px;">
+    <button class="dropbtn">Site Language @(Culture) </button>
+    <div class="dropdown-content">
+        @foreach (var cultureValue in site.Cultures)
+        {
+            var culture = cultureValue.Key;
+            var infos = cultureValue.Value;
+            var isCurrent = Culture.ToLower() == culture; ;
+            <a href="@site.GetUrl(culture)" class=" @(isCurrent ? "active" : "")">@infos.Name (@culture)</a>
+        }
+    </div>
+</div>
+
+
+<div class="dropdown">
+    <button class="dropbtn">Page Languages</button>
+    <div class="dropdown-content">
+        @foreach (var cultureValue in site.Cultures)
+        {
+            var culture = cultureValue.Key;
+            var infos = cultureValue.Value;
+            var isCurrent = Culture.ToLower() == culture;
+            if (Model.HasCulture(culture))
+            {
+            <a href="@Model.GetUrl(culture)" class=" @(isCurrent ? "active" : "")">@infos.Name (@culture)</a>
+            }
+        }
+    </div>
+</div>
+
+
+
+
+
+<style>
+    .dropbtn {
+        background-color: white;
+        color: black;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-content a:hover {
+                background-color: #cccccc;
+            }
+
+        .dropdown-content .active {
+            background-color: #aaaaaa;
+        }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #cccccc;
+    }
+</style>
